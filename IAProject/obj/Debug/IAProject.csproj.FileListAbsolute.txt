@@ -1,0 +1,14 @@
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\obj\Debug\IAProject.csproj.ResolveComReference.cache
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\obj\Debug\IAProject.Form1.resources
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\obj\Debug\IAProject.Properties.Resources.resources
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\obj\Debug\IAProject.csproj.GenerateResource.Cache
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\bin\Debug\nflRB2.xlsx
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\bin\Debug\IAProject.exe.config
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\bin\Debug\IAProject.exe
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\bin\Debug\IAProject.pdb
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\bin\Debug\MetroFramework.Design.dll
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\bin\Debug\MetroFramework.dll
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\bin\Debug\MetroFramework.Fonts.dll
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\obj\Debug\IAProject.exe
+c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\obj\Debug\IAProject.pdb
+C:\Users\Leind\Documents\Visual Studio 2013\Projects\IAProject\IAProject\obj\Debug\IAProject.csprojResolveAssemblyReference.cache
