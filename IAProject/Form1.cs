@@ -93,7 +93,6 @@ namespace IAProject
 
                 // Set players objects in order to do the tree search
                 SetPlayersArray();
-                SetTreeSearch(step);
 
                 // Set minimum values to track bars
                 this.tbAtt.Minimum = oAtt.MinInt();
@@ -106,6 +105,7 @@ namespace IAProject
                 this.tbFirst.Minimum = oFirst.MinInt();
                 this.tbFirstPer.Minimum = oFirstPer.MinInt();
                 this.tbHeight.Minimum = oHeight.MinInt() / 2;
+                this.tbDispertion.Minimum = 0;
 
                 // Set max values to track bars
                 this.tbAtt.Maximum = oAtt.MaxInt();
@@ -118,6 +118,7 @@ namespace IAProject
                 this.tbFirst.Maximum = oFirst.MaxInt();
                 this.tbFirstPer.Maximum = oFirstPer.MaxInt();
                 this.tbHeight.Maximum = oHeight.MaxInt() / 2;
+                this.tbDispertion.Maximum = 100;
 
                 // Set init values
                 this.tbAtt.Value = oAtt.MedianInt();
@@ -130,6 +131,7 @@ namespace IAProject
                 this.tbFirst.Value = oFirst.MedianInt();
                 this.tbFirstPer.Value = oFirstPer.MedianInt();
                 this.tbHeight.Value = oHeight.MedianInt() / 2;
+                this.tbDispertion.Value = 50;
 
                 this.txtbAtt.Text = this.tbAtt.Value.ToString();
                 this.txtbAttG.Text = this.tbAttG.Value.ToString();
@@ -141,6 +143,7 @@ namespace IAProject
                 this.txtbFirst.Text = this.tbFirst.Value.ToString();
                 this.txtbFirstPer.Text = this.tbFirstPer.Value.ToString();
                 this.txtbHeight.Text = (this.tbHeight.Value * 2).ToString();
+                this.txtbDispertion.Text = (this.tbDispertion.Value).ToString();
                 
             }
             finally 
@@ -149,33 +152,6 @@ namespace IAProject
                 excelBook.Close(0);
                 excelApp.Quit();
             }
-        }
-
-        private void SetPlayersArray()
-        {
-            for (int i = 0; i < 300; i++)
-            {
-                players.Add(new Player() { 
-                    Name = oPlayer.Values[i],
-                    Att = oAtt.Values[i],
-                    AttG = oAttG.Values[i],
-                    Yds = oYds.Values[i],
-                    Avg = oAvg.Values[i],
-                    YdsG = oYdsG.Values[i],
-                    Weight = oWeight.Values[i],
-                    Lng = oLng.Values[i],
-                    First = oFirst.Values[i],
-                    FirstPer = oFirstPer.Values[i],
-                    Height = oHeight.Values[i]
-                });
-            }
-        }
-
-        private void SetTreeSearch(int step)
-        {
-            lblAsk.Text = tree.LeafQuestion(step);
-            btnLeft.Text = tree.LeafLeft(step);
-            btnRight.Text = tree.LeafRight(step);
         }
 
         private void tbAtt_ValueChanged(object sender, EventArgs e)
@@ -218,12 +194,16 @@ namespace IAProject
         {
             this.txtbHeight.Text = (this.tbHeight.Value * 2).ToString();
         }
+        private void tbDispertion_ValueChanged(object sender, EventArgs e)
+        {
+            this.txtbDispertion.Text = (this.tbDispertion.Value).ToString();
+        }
 
         private void btnCalculate_Click(object sender, EventArgs e)
         {
             if (canSearch < 3)
             {
-                MetroFramework.MetroMessageBox.Show(this, "Selecciona al menos un atributo", "Error");
+                MetroFramework.MetroMessageBox.Show(this, "Selecciona al menos tres atributos", "Error");
             }
             else
                 CalculatePlayer();
@@ -369,69 +349,6 @@ namespace IAProject
             }
         }
 
-        private void CalculatePlayer()
-        {
-            pbCalculate.PerformStep();
-            pbCalculate.Step = 1;
-            double[] playerSum = new double[300];
-            double tempSum = 0;
-            for (int i = 0; i < 300; i++)
-            {
-                pbCalculate.PerformStep();
-                tempSum = (oAtt.Values[i] * sAtt) + (oAttG.Values[i] * sAttG) + (oYds.Values[i] * sYds) + (oAvg.Values[i] * sAvg) + (oYdsG.Values[i] * sYdsG) + (oWeight.Values[i] * sWeight) + (oLng.Values[i] * sLng) + (oFirst.Values[i] * sFirst) + (oFirstPer.Values[i] * sFirstPer) + (oHeight.Values[i] * sHeight);
-                playerSum[i] = tempSum;
-            }
-
-            pbCalculate.Step = 5;
-            pbCalculate.PerformStep();
-
-            tempSum = (Convert.ToDouble(this.txtbAtt.Text) * sAtt)
-            + (Convert.ToDouble(this.txtbAttG.Text) * sAttG)
-            + (Convert.ToDouble(this.txtbYds.Text) * sYds)
-            + (Convert.ToDouble(this.txtbAvg.Text) * sAvg)
-            + (Convert.ToDouble(this.txtbYdsG.Text) * sYdsG)
-            + ((Convert.ToDouble(this.txtbWeight.Text) * 2) * sWeight)
-            + (Convert.ToDouble(this.txtbLng.Text) * sLng)
-            + (Convert.ToDouble(this.txtbFirst.Text) * sFirst)
-            + (Convert.ToDouble(this.txtbFirstPer.Text) * sFirstPer)
-            + ((Convert.ToDouble(this.txtbHeight.Text) * 2) * sHeight);
-
-            //var nearest = playerSum.OrderBy(x => Math.Abs((long)x - tempSum)).First();
-            int nearestIndex = Array.IndexOf(playerSum, playerSum.OrderBy(x => Math.Abs((long)x - tempSum)).First()); 
-            pbCalculate.PerformStep();
-            pbCalculate.PerformStep();
-
-            ShowPlayerFound(nearestIndex);
-        }
-
-        private void ShowPlayerFound(int index)
-        {
-            pnlSingle.Visible = true;
-
-            this.lblPLayerName.Text = oPlayer.Values[index];
-            this.lblPlayerAttVal.Text = oAtt.Values[index].ToString();
-            this.lblPlayerAttGVal.Text = oAttG.Values[index].ToString();
-            this.lblPlayerYdsVal.Text = oYds.Values[index].ToString();
-            this.lblPlayerAvgVal.Text = oAvg.Values[index].ToString();
-            this.lblPlayerYdsGVal.Text = oYdsG.Values[index].ToString();
-            this.lblPlayerWeightVal.Text = oWeight.Values[index].ToString();
-            this.lblPlayerLngVal.Text = oLng.Values[index].ToString();
-            this.lblPlayerFirstVal.Text = oFirst.Values[index].ToString();
-            this.lblPlayerFirstPerVal.Text = oFirstPer.Values[index].ToString();
-            this.lblPlayerHeightVal.Text = oHeight.Values[index].ToString();
-
-            while (this.Height < 470)
-            {
-                this.Height += 10;
-                Application.DoEvents();
-            }
-
-            if (grdTree.Visible == true)
-            {
-                grdTree.Height = 394;
-            }
-        }
-
         private void txtbAtt_TextChanged(object sender, EventArgs e)
         {
             if (String.IsNullOrWhiteSpace(txtbAtt.Text))
@@ -512,256 +429,188 @@ namespace IAProject
             //tbHeight.Value = Convert.ToInt32((Math.Round(Convert.ToDouble(txtbHeight.Text))));
         }
 
-        private void btnLeft_Click(object sender, EventArgs e)
+        private void txtbDispertion_TextChanged(object sender, EventArgs e)
         {
-            // Remove players from list
-            if (step == 0)
+            if (String.IsNullOrWhiteSpace(txtbDispertion.Text))
+                txtbHeight.Text = "0";
+        }
+
+        /*
+         * Set the list of players with initial values**/
+        private void SetPlayersArray()
+        {
+            players.Clear();
+            for (int i = 0; i < 300; i++)
             {
-                leftOne = true;
-
-                // Height
-                players.RemoveAll(item => item.Height >= 180);
-                step++;
-                SetTreeSearch(step);
-                return;
-            }
-
-            if (step == 1)
-            {
-                leftTwo = true;
-
-                // Weight
-                players.RemoveAll(item => item.Weight >= 220);
-                step++;
-                SetTreeSearch(step);
-                return;
-            }
-
-            if (step == 2)
-            {
-                leftThree = true;
-
-                // 1st %
-                players.RemoveAll(item => item.FirstPer >= 30);
-                step++;
-                SetTreeSearch(step);
-                return;
-            }
-
-            if (step == 3)
-            {
-                leftFour = true;
-
-                // Att
-                players.RemoveAll(item => item.Att >= 100);
-
-                if (leftOne)
+                players.Add(new Player()
                 {
-                    btnRight.Enabled = false;
-                    btnLeft.Enabled = false;
-
-                    ShowGrid();
-                }
-                else if (rightOne && leftTwo)
-                {
-                    btnRight.Enabled = false;
-                    btnLeft.Enabled = false;
-
-                    ShowGrid();
-                }
-                else if (rightOne && rightTwo && leftThree)
-                {
-                    btnRight.Enabled = false;
-                    btnLeft.Enabled = false;
-
-                    ShowGrid();
-                }
-                else if (rightOne && rightTwo && rightThree && leftFour)
-                {
-                    btnRight.Enabled = false;
-                    btnLeft.Enabled = false;
-
-                    ShowGrid();
-                }
-                else { step++; SetTreeSearch(step); return; }
-
-            }
-
-            if (step == 4)
-            {
-                leftFive = true;
-
-                // Yds/G
-                players.RemoveAll(item => item.Att >= 40);
-
-                if (rightOne && rightTwo && rightThree && rightFour && leftFive)
-                {
-                    btnRight.Enabled = false;
-                    btnLeft.Enabled = false;
-
-                    ShowGrid();
-                }
-                else { step++; SetTreeSearch(step); return; }
-            }
-
-            if (step == 5)
-            {
-                leftSix = true;
-
-                // Avg
-                players.RemoveAll(item => item.Att >= 4);
-
-                if (rightOne && rightTwo && rightThree && rightFour && rightFive && leftSix)
-                {
-                    btnRight.Enabled = false;
-                    btnLeft.Enabled = false;
-
-                    ShowGrid();
-                }
-                else { step++; SetTreeSearch(step); return; }
-            }
-
-            if (step == 6)
-            {
-                // Lng
-                players.RemoveAll(item => item.Att >= 40);
-                btnRight.Enabled = false;
-                btnLeft.Enabled = false;
-
-                ShowGrid();
+                    Name = oPlayer.Values[i],
+                    Att = oAtt.Values[i],
+                    AttG = oAttG.Values[i],
+                    Yds = oYds.Values[i],
+                    Avg = oAvg.Values[i],
+                    YdsG = oYdsG.Values[i],
+                    Weight = oWeight.Values[i],
+                    Lng = oLng.Values[i],
+                    First = oFirst.Values[i],
+                    FirstPer = oFirstPer.Values[i],
+                    Height = oHeight.Values[i]
+                });
             }
         }
 
-        private void btnRight_Click(object sender, EventArgs e)
+        /*
+         * Difuse calculation start
+         * **/
+        private void CalculatePlayer()
         {
-            // Remove players from list
-            if (step == 0)
+            pbCalculate.PerformStep();
+            pbCalculate.Step = 1;
+
+            List<Player> tempPlayers;
+            pbCalculate.Step = 5;
+            pbCalculate.PerformStep();
+
+            // tempSum = user's player approach. Taking only the ones checked in consideration
+            double tempSum = (Convert.ToDouble(this.txtbAtt.Text) * sAtt)
+            + (Convert.ToDouble(this.txtbAttG.Text) * sAttG)
+            + (Convert.ToDouble(this.txtbYds.Text) * sYds)
+            + (Convert.ToDouble(this.txtbAvg.Text) * sAvg)
+            + (Convert.ToDouble(this.txtbYdsG.Text) * sYdsG)
+            + ((Convert.ToDouble(this.txtbWeight.Text)) * sWeight)
+            + (Convert.ToDouble(this.txtbLng.Text) * sLng)
+            + (Convert.ToDouble(this.txtbFirst.Text) * sFirst)
+            + (Convert.ToDouble(this.txtbFirstPer.Text) * sFirstPer)
+            + ((Convert.ToDouble(this.txtbHeight.Text)) * sHeight);
+
+            foreach (Player p in players)
             {
-                rightOne = true;
-
-                // Height
-                players.RemoveAll(item => item.Height <= 179);
-                step++;
-                SetTreeSearch(step);
-                return;
+                // Set each players custom sum
+                p.SetPlayerValues(sAtt, sAttG, sYds, sAvg, sYdsG, sWeight, sLng, sFirst, sFirstPer, sHeight);
+                // Substract the user's approach to the players sum
+                p.CustomSum = Math.Abs(p.CustomSum - tempSum);
             }
+            //var closest = players.Aggregate((x, y) => Math.Abs(x - tempSum) < Math.Abs(y - number) ? x : y);
+            //int nearestIndex = Array.IndexOf(playerSum, playerSum.OrderBy(x => Math.Abs((long)x - tempSum)).First());
 
-            if (step == 1)
-            {
-                rightTwo = true;
+            // Sort the reults and take the first five
+            var tPlayers = players.OrderBy(i => i.CustomSum).Take(5).ToList();
 
-                // Weight
-                players.RemoveAll(item => item.Weight <= 219);
-                step++;
-                SetTreeSearch(step);
-                return;
-            }
+            pbCalculate.PerformStep();
+            pbCalculate.PerformStep();
 
-            if (step == 2)
-            {
-                rightThree = true;
-
-                // 1st %
-                players.RemoveAll(item => item.FirstPer <= 29);
-                step++;
-                SetTreeSearch(step);
-                return;
-            }
-
-            if (step == 3)
-            {
-                rightFour = true;
-
-                // Att
-                players.RemoveAll(item => item.Att <= 99);
-
-                if (leftOne)
-                {
-                    btnRight.Enabled = false;
-                    btnLeft.Enabled = false;
-
-                    ShowGrid();
-                }
-                else if (rightOne && leftTwo)
-                {
-                    btnRight.Enabled = false;
-                    btnLeft.Enabled = false;
-
-                    ShowGrid();
-                }
-                else if (rightOne && rightTwo && leftThree)
-                {
-                    btnRight.Enabled = false;
-                    btnLeft.Enabled = false;
-
-                    ShowGrid();
-                }
-                else if (rightOne && rightTwo && rightThree && leftFour)
-                {
-                    btnRight.Enabled = false;
-                    btnLeft.Enabled = false;
-
-                    ShowGrid();
-                }
-                else { step++; SetTreeSearch(step); return; }
-            }
-
-            if (step == 4)
-            {
-                rightFive = true;
-
-                // Yds/G
-                players.RemoveAll(item => item.Att <= 30);
-
-                if (rightOne && rightTwo && rightThree && rightFour && leftFive)
-                {
-                    btnRight.Enabled = false;
-                    btnLeft.Enabled = false;
-
-                    ShowGrid();
-                }
-                else { step++; SetTreeSearch(step); return; }
-            }
-
-            if (step == 5)
-            {
-                rightSix = true;
-
-                // Avg
-                players.RemoveAll(item => item.Att <= 3);
-
-                if (rightOne && rightTwo && rightThree && rightFour && rightFive && leftSix)
-                {
-                    btnRight.Enabled = false;
-                    btnLeft.Enabled = false;
-
-                    ShowGrid();
-                }
-                else { step++; SetTreeSearch(step); return; }
-            }
-
-            if (step == 6)
-            {
-                // Lng
-                players.RemoveAll(item => item.Att <= 39);
-
-                btnRight.Enabled = false;
-                btnLeft.Enabled = false;
-
-                ShowGrid();
-            }
-
-            step++;
-            
+            ShowPlayerFound(tPlayers);
         }
 
+        /*
+         * Show the candidate players
+         * **/
+        private void ShowPlayerFound(List<Player> selectedPlayers)
+        {
+            pnlSingle.Visible = true;
+            grdDifuse.Rows.Clear();
+
+            // Set dispersation value
+            double dispertion = Convert.ToDouble(this.txtbDispertion.Text);
+
+            // Get the most far away player
+            var far = selectedPlayers.Last().CustomSum;
+
+            // Set a margin
+            double margin = (dispertion * far) / 100;
+
+            // Remove every player that is out the margin (Dispertion)
+            selectedPlayers.RemoveAll(item => item.CustomSum >= margin);
+
+            // Add rows
+
+            /* 
+             * Use the single display if theresonly one candidate
+             * Use a grid if theres more than 1 candidate
+             * **/
+            if (selectedPlayers.Count == 1)
+            {
+                // Show the single format
+                grdDifuse.Visible = false;
+                ShowSinglePlayer(selectedPlayers);
+                pbCalculate.Step = 100;
+                pbCalculate.PerformStep();
+            }
+            else
+            {
+                grdDifuse.Visible = true;
+                foreach (Player player in selectedPlayers)
+                {
+                    grdDifuse.Rows.Add(
+                        player.Name,
+                        player.Att,
+                        player.AttG,
+                        player.Yds,
+                        player.Avg,
+                        player.YdsG,
+                        player.Weight,
+                        player.Lng,
+                        player.First,
+                        player.FirstPer,
+                        player.Height);
+                }
+
+                pbCalculate.Step = 100;
+                pbCalculate.PerformStep();
+
+                while (this.Height < 490)
+                {
+                    this.Height += 10;
+                    Application.DoEvents();
+                }
+
+                if (grdTree.Visible == true)
+                {
+                    grdTree.Height = 394;
+                }
+            }
+        }
+
+        /*
+         * Method that shows if theres only one candidate
+         * **/
+        private void ShowSinglePlayer(List<Player> selectedPlayers)
+        {
+            pnlSingle.Visible = true;
+
+            this.lblPLayerName.Text = selectedPlayers.First().Name;
+            this.lblPlayerAttVal.Text = selectedPlayers.First().Att.ToString();
+            this.lblPlayerAttGVal.Text = selectedPlayers.First().AttG.ToString();
+            this.lblPlayerYdsVal.Text = selectedPlayers.First().Yds.ToString();
+            this.lblPlayerAvgVal.Text = selectedPlayers.First().Avg.ToString();
+            this.lblPlayerYdsGVal.Text = selectedPlayers.First().YdsG.ToString();
+            this.lblPlayerWeightVal.Text = selectedPlayers.First().Weight.ToString();
+            this.lblPlayerLngVal.Text = selectedPlayers.First().Lng.ToString();
+            this.lblPlayerFirstVal.Text = selectedPlayers.First().First.ToString();
+            this.lblPlayerFirstPerVal.Text = selectedPlayers.First().FirstPer.ToString();
+            this.lblPlayerHeightVal.Text = selectedPlayers.First().Height.ToString();
+
+            while (this.Height < 490)
+            {
+                this.Height += 10;
+                Application.DoEvents();
+            }
+
+            if (grdTree.Visible == true)
+            {
+                grdTree.Height = 394;
+            }
+        }
+
+        /*
+         * Show the tree search grid**/
         private void ShowGrid()
         {
             grdTree.Visible = true;
 
             if (pnlSingle.Visible == true)
             {
-                grdTree.Height = 394;
+                grdTree.Height = 414;
             }
 
             // Resize
@@ -789,32 +638,76 @@ namespace IAProject
             }
         }
 
-        private void btnResetTree_Click(object sender, EventArgs e)
+        // Calculate tree search algorithm event, only taking count of the selected attributes
+        private void btnCalculateTree_Click(object sender, EventArgs e)
         {
-            step = 0;
-            
-            leftOne = false;
-            leftTwo = false;
-            leftThree = false;
-            leftFour = false;
-            leftFive = false;
-            leftSix = false;
-            rightOne = false;
-            rightTwo = false;
-            rightThree = false;
-            rightFour = false;
-            rightFive = false;
-            rightSix = false;
-
             grdTree.Rows.Clear();
-
             SetPlayersArray();
 
-            btnRight.Enabled = true;
-            btnLeft.Enabled = true;
+            // Height
+            if (cbHeight.Checked)
+            {
+                if ((Convert.ToDouble(this.txtbHeight.Text)) >= 180)
+                    players.RemoveAll(item => item.Height <= 179);
+                else if ((Convert.ToDouble(this.txtbHeight.Text)) <= 179)
+                    players.RemoveAll(item => item.Height >= 180);
+            }
             
-            SetTreeSearch(step);
-        }
+            // Weight
+            if (cbWeight.Checked)
+            {
+                if ((Convert.ToDouble(this.txtbWeight.Text)) >= 220)
+                    players.RemoveAll(item => item.Weight >= 219);
+                else if ((Convert.ToDouble(this.txtbWeight.Text)) <= 219)
+                    players.RemoveAll(item => item.Weight >= 220);
+            }
 
+            // 1st %
+            if (cbFirstPer.Checked)
+            {
+                if ((Convert.ToDouble(this.txtbFirstPer.Text)) >= 30)
+                    players.RemoveAll(item => item.FirstPer <= 29);
+                else if ((Convert.ToDouble(this.txtbFirstPer.Text)) <= 29)
+                    players.RemoveAll(item => item.FirstPer >= 30);
+            }
+
+            // Att
+            if (cbAtt.Checked)
+            {
+                if ((Convert.ToDouble(this.txtbAtt.Text)) >= 100)
+                    players.RemoveAll(item => item.Att <= 99);
+                else if ((Convert.ToDouble(this.txtbAtt.Text)) <= 99)
+                    players.RemoveAll(item => item.Att >= 100);
+            }
+
+            // Yds/G
+            if (cbYdsG.Checked)
+            {
+                if ((Convert.ToDouble(this.txtbYdsG.Text)) >= 40)
+                    players.RemoveAll(item => item.YdsG <= 39);
+                else if ((Convert.ToDouble(this.txtbYdsG.Text)) <= 39)
+                    players.RemoveAll(item => item.YdsG >= 40);
+            }
+
+            // Avg
+            if (cbAvg.Checked)
+            {
+                if ((Convert.ToDouble(this.txtbAvg.Text)) >= 4)
+                    players.RemoveAll(item => item.Avg <= 3);
+                else if ((Convert.ToDouble(this.txtbAvg.Text)) <= 3)
+                    players.RemoveAll(item => item.Avg >= 4);
+            }
+
+            // Lng
+            if (cbLng.Checked)
+            {
+                if ((Convert.ToDouble(this.txtbLng.Text)) >= 40)
+                    players.RemoveAll(item => item.Lng <= 39);
+                else if ((Convert.ToDouble(this.txtbLng.Text)) <= 39)
+                    players.RemoveAll(item => item.Lng >= 40);
+            }
+
+            ShowGrid();
+        }
     }
 }
