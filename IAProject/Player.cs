@@ -19,7 +19,8 @@ namespace IAProject
         public double First { get; set; }
         public double FirstPer { get; set; }
         public double Height { get; set; }
-
+        
+        public string ImageUrl { get; set; }
         public double CustomSum { get; set; }
 
         public void SetPlayerValues(short sAtt, short sAttG, short sYds, short sAvg, short sYdsG, short sWeight, short sLng, short sFirst, short sFirstPer, short sHeight)

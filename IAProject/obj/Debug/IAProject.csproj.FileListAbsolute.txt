@@ -12,3 +12,17 @@ c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\bin\Deb
 c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\obj\Debug\IAProject.exe
 c:\users\leind\documents\visual studio 2013\Projects\IAProject\IAProject\obj\Debug\IAProject.pdb
 C:\Users\Leind\Documents\Visual Studio 2013\Projects\IAProject\IAProject\obj\Debug\IAProject.csprojResolveAssemblyReference.cache
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Debug\IAProject.exe.config
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Debug\IAProject.csproj.ResolveComReference.cache
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Debug\IAProject.exe
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Debug\IAProject.pdb
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Debug\nflRB2.xlsx
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Debug\IAProject.exe
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Debug\IAProject.pdb
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Debug\MetroFramework.Design.dll
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Debug\MetroFramework.dll
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Debug\IAProject.csprojResolveAssemblyReference.cache
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Debug\IAProject.Form1.resources
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Debug\IAProject.Properties.Resources.resources
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Debug\IAProject.csproj.GenerateResource.Cache

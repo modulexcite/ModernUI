@@ -40,7 +40,13 @@ namespace IAProject
         Attribute oFirstPer;
         Attribute oHeight;
 
+        Image pImage;
+        Image tImage;
+
         List<Player> players = new List<Player>();
+        List<Player> sPlayers = new List<Player>();
+        List<Player> tPlayers = new List<Player>();
+
         Tree tree = new Tree();
         int step = 0;
 
@@ -57,6 +63,10 @@ namespace IAProject
         bool rightFive = false;
         bool rightSix = false;
 
+        bool flag = true;
+
+        const int MAX_DISPERTION = 100;
+        const int MIN_DISPERTION = 0;
 
         public Form1()
         {
@@ -90,9 +100,6 @@ namespace IAProject
                 oFirst = new Attribute("First", excelWorksheet.get_Range("I2", "I301").Value);
                 oFirstPer = new Attribute("FirstPer", excelWorksheet.get_Range("J2", "J301").Value);
                 oHeight = new Attribute("Height", excelWorksheet.get_Range("K2", "K301").Value);
-
-                // Set players objects in order to do the tree search
-                SetPlayersArray();
 
                 // Set minimum values to track bars
                 this.tbAtt.Minimum = oAtt.MinInt();
@@ -144,9 +151,9 @@ namespace IAProject
                 this.txtbFirstPer.Text = this.tbFirstPer.Value.ToString();
                 this.txtbHeight.Text = (this.tbHeight.Value * 2).ToString();
                 this.txtbDispertion.Text = (this.tbDispertion.Value).ToString();
-                
+
             }
-            finally 
+            finally
             {
                 // Finally close it
                 excelBook.Close(0);
@@ -190,13 +197,89 @@ namespace IAProject
         {
             this.txtbFirstPer.Text = this.tbFirstPer.Value.ToString();
         }
-        private void tbHeigh_ValueChanged(object sender, EventArgs e)
+        private void tbHeight_ValueChanged(object sender, EventArgs e)
         {
             this.txtbHeight.Text = (this.tbHeight.Value * 2).ToString();
         }
         private void tbDispertion_ValueChanged(object sender, EventArgs e)
         {
             this.txtbDispertion.Text = (this.tbDispertion.Value).ToString();
+        }
+        private void txtbAtt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtbAttG_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtbYds_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtbAvg_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtbYdsG_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtbWeight_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtbLng_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtbFirst_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtbFirstPer_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtbHeight_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
         }
 
         private void btnCalculate_Click(object sender, EventArgs e)
@@ -354,6 +437,32 @@ namespace IAProject
             if (String.IsNullOrWhiteSpace(txtbAtt.Text))
                 txtbAtt.Text = "0";
 
+            try
+            {
+                double a = ((Math.Round(Convert.ToDouble(txtbAtt.Text))));
+                if (Convert.ToInt32(a) > oAtt.MaxInt())
+                {
+                    if(cbAtt.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbAtt.Text = oAtt.MaxInt().ToString();
+                    tbAtt.Value = tbAtt.Maximum;
+                }
+                else if (Convert.ToInt32(a) < oAtt.MinInt())
+                {
+                    if (cbAtt.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbAtt.Text = oAtt.MinInt().ToString();
+                    tbAtt.Value = tbAtt.Minimum;
+                }
+                else
+                {
+                    tbAtt.Value = Convert.ToInt32(a);
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
             //tbAtt.Value = Convert.ToInt32((Math.Round(Convert.ToDouble(txtbAtt.Text))));
         }
 
@@ -361,6 +470,33 @@ namespace IAProject
         {
             if (String.IsNullOrWhiteSpace(txtbAttG.Text))
                 txtbAttG.Text = "0";
+
+            try
+            {
+                double a = ((Math.Round(Convert.ToDouble(txtbAttG.Text))));
+                if (Convert.ToInt32(a) > oAttG.MaxInt())
+                {
+                    if(cbAttG.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbAttG.Text = oAttG.MaxInt().ToString();
+                    tbAttG.Value = tbAttG.Maximum;
+                }
+                else if (Convert.ToInt32(a) < oAttG.MinInt())
+                {
+                    if (cbAttG.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbAttG.Text = oAttG.MinInt().ToString();
+                    tbAttG.Value = tbAttG.Minimum;
+                }
+                else
+                {
+                    tbAttG.Value = Convert.ToInt32(a);
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
 
             //tbAttG.Value = Convert.ToInt32((Math.Round(Convert.ToDouble(txtbAttG.Text))));
         }
@@ -370,6 +506,33 @@ namespace IAProject
             if (String.IsNullOrWhiteSpace(txtbYds.Text))
                 txtbYds.Text = "0";
 
+            try
+            {
+                double a = ((Math.Round(Convert.ToDouble(txtbYds.Text))));
+                if (Convert.ToInt32(a) > oYds.MaxInt())
+                {
+                    if(cbYds.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbYds.Text = oYds.MaxInt().ToString();
+                    tbYds.Value = tbYds.Maximum;
+                }
+                else if (Convert.ToInt32(a) < oYds.MinInt())
+                {
+                    if (cbYds.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbYds.Text = oYds.MinInt().ToString();
+                    tbYds.Value = tbYds.Minimum;
+                }
+                else
+                {
+                    tbYds.Value = Convert.ToInt32(a);
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+
             //tbYds.Value = Convert.ToInt32((Math.Round(Convert.ToDouble(txtbYds.Text))));
         }
 
@@ -378,6 +541,32 @@ namespace IAProject
             if (String.IsNullOrWhiteSpace(txtbAvg.Text))
                 txtbAvg.Text = "0";
 
+            try
+            {
+                double a = ((Math.Round(Convert.ToDouble(txtbAvg.Text))));
+                if (Convert.ToInt32(a) > oAvg.MaxInt())
+                {
+                    if(cbAvg.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbAvg.Text = oAvg.MaxInt().ToString();
+                    tbAvg.Value = tbAvg.Maximum;
+                }
+                else if (Convert.ToInt32(a) < oAvg.MinInt())
+                {
+                    if (cbAvg.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbAvg.Text = oAvg.MinInt().ToString();
+                    tbAvg.Value = tbAvg.Minimum;
+                }
+                else
+                {
+                    tbAvg.Value = Convert.ToInt32(a);
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
             //tbAvg.Value = Convert.ToInt32((Math.Round(Convert.ToDouble(txtbAvg.Text))));
         }
 
@@ -385,6 +574,33 @@ namespace IAProject
         {
             if (String.IsNullOrWhiteSpace(txtbYdsG.Text))
                 txtbYdsG.Text = "0";
+
+            try
+            {
+                double a = ((Math.Round(Convert.ToDouble(txtbYdsG.Text))));
+                if (Convert.ToInt32(a) > oYdsG.MaxInt())
+                {
+                    if(cbYdsG.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbYdsG.Text = oYdsG.MaxInt().ToString();
+                    tbYdsG.Value = tbYdsG.Maximum;
+                }
+                else if (Convert.ToInt32(a) < oYdsG.MinInt())
+                {
+                    if (cbYdsG.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbYdsG.Text = oYdsG.MinInt().ToString();
+                    tbYdsG.Value = tbYdsG.Minimum ;
+                }
+                else
+                {
+                    tbYdsG.Value = Convert.ToInt32(a);
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
 
             //tbYdsG.Value = Convert.ToInt32((Math.Round(Convert.ToDouble(txtbYds.Text))));
         }
@@ -394,6 +610,33 @@ namespace IAProject
             if (String.IsNullOrWhiteSpace(txtbWeight.Text))
                 txtbWeight.Text = "0";
 
+            try
+            {
+                double a = ((Math.Round(Convert.ToDouble(txtbWeight.Text))));
+                if (Convert.ToInt32(a) > oWeight.MaxInt())
+                {
+                    if(cbWeight.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbWeight.Text = oWeight.MaxInt().ToString();
+                    tbWeight.Value = tbWeight.Maximum / 2;
+                }
+                else if (Convert.ToInt32(a) < oWeight.MinInt())
+                {
+                    if (cbWeight.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbWeight.Text = oWeight.MinInt().ToString();
+                    tbWeight.Value = tbWeight.Minimum / 2;
+                }
+                else
+                {
+                    tbWeight.Value = Convert.ToInt32(a) / 2;
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+
             //tbWeight.Value = Convert.ToInt32((Math.Round(Convert.ToDouble(txtbWeight.Text))));
         }
 
@@ -401,6 +644,33 @@ namespace IAProject
         {
             if (String.IsNullOrWhiteSpace(txtbLng.Text))
                 txtbLng.Text = "0";
+
+            try
+            {
+                double a = ((Math.Round(Convert.ToDouble(txtbLng.Text))));
+                if (Convert.ToInt32(a) > oLng.MaxInt())
+                {
+                    if(cbLng.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbLng.Text = oLng.MaxInt().ToString();
+                    tbLng.Value = tbLng.Maximum;
+                }
+                else if (Convert.ToInt32(a) < oLng.MinInt())
+                {
+                    if (cbLng.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbLng.Text = oLng.MinInt().ToString();
+                    tbLng.Value = tbLng.Minimum;
+                }
+                else
+                {
+                    tbLng.Value = Convert.ToInt32(a);
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
 
             //tbLng.Value = Convert.ToInt32((Math.Round(Convert.ToDouble(txtbLng.Text))));
         }
@@ -410,6 +680,32 @@ namespace IAProject
             if (String.IsNullOrWhiteSpace(txtbFirst.Text))
                 txtbFirst.Text = "0";
 
+            try
+            {
+                double a = ((Math.Round(Convert.ToDouble(txtbFirst.Text))));
+                if (Convert.ToInt32(a) > oFirst.MaxInt())
+                {
+                    if(cbFirst.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbFirst.Text = oFirst.MaxInt().ToString();
+                    tbFirst.Value = tbFirst.Maximum;
+                }
+                else if (Convert.ToInt32(a) < oFirst.MinInt())
+                {
+                    if (cbFirst.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbFirst.Text = oFirst.MinInt().ToString();
+                    tbFirst.Value = tbFirst.Minimum;
+                }
+                else
+                {
+                    tbFirst.Value = Convert.ToInt32(a);
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
             //tbFirst.Value = Convert.ToInt32((Math.Round(Convert.ToDouble(txtbFirst.Text))));
         }
 
@@ -418,13 +714,66 @@ namespace IAProject
             if (String.IsNullOrWhiteSpace(txtbFirstPer.Text))
                 txtbFirstPer.Text = "0";
 
+            try
+            {
+                double a = ((Math.Round(Convert.ToDouble(txtbFirstPer.Text))));
+                if (Convert.ToInt32(a) > oFirstPer.MaxInt())
+                {
+                    if(cbFirstPer.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbFirstPer.Text = oFirstPer.MaxInt().ToString();
+                    tbFirstPer.Value = tbFirstPer.Maximum;
+                }
+                else if (Convert.ToInt32(a) < oFirstPer.MinInt())
+                {
+                    if (cbFirstPer.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbFirstPer.Text = oFirstPer.MinInt().ToString();
+                    tbFirstPer.Value = tbFirstPer.Minimum;
+                }
+                else
+                {
+                    tbFirstPer.Value = Convert.ToInt32(a);
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
             //tbFirstPer.Value = Convert.ToInt32((Math.Round(Convert.ToDouble(txtbFirstPer.Text))));
         }
 
         private void txtbHeight_TextChanged(object sender, EventArgs e)
         {
             if (String.IsNullOrWhiteSpace(txtbHeight.Text))
-                txtbHeight.Text = "0";
+                //txtbHeight.Text = "0";
+
+            try
+            {
+                double a = ((Math.Round(Convert.ToDouble(txtbHeight.Text))));
+                if (Convert.ToInt32(a) > oHeight.MaxInt())
+                {
+                    if(cbHeight.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbHeight.Text = oHeight.MaxInt().ToString();
+                    tbHeight.Value = tbHeight.Maximum / 2;
+                }
+                else if (Convert.ToInt32(a) < oWeight.MinInt())
+                {
+                    if (cbHeight.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbHeight.Text = oHeight.MinInt().ToString();
+                    tbHeight.Value = tbHeight.Minimum / 2;
+                }
+                else
+                {
+                    tbHeight.Value = Convert.ToInt32(a) / 2;
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
 
             //tbHeight.Value = Convert.ToInt32((Math.Round(Convert.ToDouble(txtbHeight.Text))));
         }
@@ -433,6 +782,33 @@ namespace IAProject
         {
             if (String.IsNullOrWhiteSpace(txtbDispertion.Text))
                 txtbHeight.Text = "0";
+
+            try
+            {
+                double a = ((Math.Round(Convert.ToDouble(txtbDispertion.Text))));
+                if (Convert.ToInt32(a) > MAX_DISPERTION)
+                {
+                    if(cbDispertion.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbDispertion.Text = MAX_DISPERTION.ToString();
+                    tbDispertion.Value = tbDispertion.Maximum;
+                }
+                else if (Convert.ToInt32(a) < MIN_DISPERTION)
+                {
+                    if(cbDispertion.Checked)
+                        MetroFramework.MetroMessageBox.Show(this, "El valor especificado excede el limite", "Aviso");
+                    txtbDispertion.Text = MIN_DISPERTION.ToString();
+                    tbDispertion.Value = MIN_DISPERTION;
+                }
+                else
+                {
+                    tbDispertion.Value = Convert.ToInt32(a);
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
         }
 
         /*
@@ -454,7 +830,8 @@ namespace IAProject
                     Lng = oLng.Values[i],
                     First = oFirst.Values[i],
                     FirstPer = oFirstPer.Values[i],
-                    Height = oHeight.Values[i]
+                    Height = oHeight.Values[i],
+                    ImageUrl = Path.Combine(Environment.CurrentDirectory, "nfl_photos\\" + (i + 1)+ ".png")
                 });
             }
         }
@@ -464,24 +841,41 @@ namespace IAProject
          * **/
         private void CalculatePlayer()
         {
+            SetPlayersArray();
+            pbCalculate.Step = 5;
             pbCalculate.PerformStep();
-            pbCalculate.Step = 1;
 
-            List<Player> tempPlayers;
+            //List<Player> tempPlayers;
             pbCalculate.Step = 5;
             pbCalculate.PerformStep();
 
             // tempSum = user's player approach. Taking only the ones checked in consideration
-            double tempSum = (Convert.ToDouble(this.txtbAtt.Text) * sAtt)
-            + (Convert.ToDouble(this.txtbAttG.Text) * sAttG)
-            + (Convert.ToDouble(this.txtbYds.Text) * sYds)
-            + (Convert.ToDouble(this.txtbAvg.Text) * sAvg)
-            + (Convert.ToDouble(this.txtbYdsG.Text) * sYdsG)
-            + ((Convert.ToDouble(this.txtbWeight.Text)) * sWeight)
-            + (Convert.ToDouble(this.txtbLng.Text) * sLng)
-            + (Convert.ToDouble(this.txtbFirst.Text) * sFirst)
-            + (Convert.ToDouble(this.txtbFirstPer.Text) * sFirstPer)
-            + ((Convert.ToDouble(this.txtbHeight.Text)) * sHeight);
+
+            double tempSum = 0;
+            try
+            {
+                tempSum = (Convert.ToDouble(this.txtbAtt.Text) * sAtt)
+                + (Convert.ToDouble(this.txtbAttG.Text) * sAttG)
+                + (Convert.ToDouble(this.txtbYds.Text) * sYds)
+                + (Convert.ToDouble(this.txtbAvg.Text) * sAvg)
+                + (Convert.ToDouble(this.txtbYdsG.Text) * sYdsG)
+                + ((Convert.ToDouble(this.txtbWeight.Text)) * sWeight)
+                + (Convert.ToDouble(this.txtbLng.Text) * sLng)
+                + (Convert.ToDouble(this.txtbFirst.Text) * sFirst)
+                + (Convert.ToDouble(this.txtbFirstPer.Text) * sFirstPer)
+                + ((Convert.ToDouble(this.txtbHeight.Text)) * sHeight);
+
+            }
+            catch (FormatException e)
+            {
+                MetroFramework.MetroMessageBox.Show(this, "Verifica los atributos.\nSolo numeros y un punto decimal", "Error");
+                return;
+            }
+            catch (OverflowException e)
+            {
+                MetroFramework.MetroMessageBox.Show(this, "Al parecer un atributo es demasiado grande", "Error");
+                return;
+            }
 
             foreach (Player p in players)
             {
@@ -507,20 +901,28 @@ namespace IAProject
          * **/
         private void ShowPlayerFound(List<Player> selectedPlayers)
         {
-            pnlSingle.Visible = true;
+            //pnlSingle.Visible = true;
             grdDifuse.Rows.Clear();
 
-            // Set dispersation value
-            double dispertion = Convert.ToDouble(this.txtbDispertion.Text);
+            /*
+             * If dispertion is checked
+             * Remove players out of the margin selected**/
+            if (cbDispertion.Checked == true)
+            {
+                // Set dispersation value
+                double dispertion = Convert.ToDouble(this.txtbDispertion.Text);
 
-            // Get the most far away player
-            var far = selectedPlayers.Last().CustomSum;
+                // Get the most far away player
+                var far = 0.0;
+                try { far = selectedPlayers.Last().CustomSum; }
+                catch (InvalidOperationException opex) { CalculatePlayer(); }
 
-            // Set a margin
-            double margin = (dispertion * far) / 100;
+                // Set a margin
+                double margin = (dispertion * far) / 100;
 
-            // Remove every player that is out the margin (Dispertion)
-            selectedPlayers.RemoveAll(item => item.CustomSum >= margin);
+                // Remove every player that is out the margin (Dispertion)
+                selectedPlayers.RemoveAll(item => item.CustomSum > margin);
+            }
 
             // Add rows
 
@@ -528,16 +930,16 @@ namespace IAProject
              * Use the single display if theresonly one candidate
              * Use a grid if theres more than 1 candidate
              * **/
-            if (selectedPlayers.Count == 1)
-            {
-                // Show the single format
-                grdDifuse.Visible = false;
-                ShowSinglePlayer(selectedPlayers);
-                pbCalculate.Step = 100;
-                pbCalculate.PerformStep();
-            }
-            else
-            {
+            //if (selectedPlayers.Count == 1)
+            //{
+            //    // Show the single format
+            //    grdDifuse.Visible = false;
+            //    ShowSinglePlayer(selectedPlayers);
+            //    pbCalculate.Step = 100;
+            //    pbCalculate.PerformStep();
+            //}
+            //else
+            //{
                 grdDifuse.Visible = true;
                 foreach (Player player in selectedPlayers)
                 {
@@ -555,6 +957,8 @@ namespace IAProject
                         player.Height);
                 }
 
+                sPlayers = selectedPlayers;
+
                 pbCalculate.Step = 100;
                 pbCalculate.PerformStep();
 
@@ -568,7 +972,7 @@ namespace IAProject
                 {
                     grdTree.Height = 394;
                 }
-            }
+            //}
         }
 
         /*
@@ -576,7 +980,7 @@ namespace IAProject
          * **/
         private void ShowSinglePlayer(List<Player> selectedPlayers)
         {
-            pnlSingle.Visible = true;
+            //pnlSingle.Visible = true;
 
             this.lblPLayerName.Text = selectedPlayers.First().Name;
             this.lblPlayerAttVal.Text = selectedPlayers.First().Att.ToString();
@@ -606,6 +1010,8 @@ namespace IAProject
          * Show the tree search grid**/
         private void ShowGrid()
         {
+            pbCalculateTree.Step = 120;
+            pbCalculateTree.PerformStep();
             grdTree.Visible = true;
 
             if (pnlSingle.Visible == true)
@@ -621,21 +1027,22 @@ namespace IAProject
             }
 
             // Add rows
-            foreach(Player player in players)
+            foreach (Player player in players)
             {
                 grdTree.Rows.Add(
-                    player.Name, 
-                    player.Att, 
-                    player.AttG, 
-                    player.Yds, 
-                    player.Avg, 
-                    player.YdsG, 
-                    player.Weight, 
-                    player.Lng, 
-                    player.First, 
-                    player.FirstPer, 
+                    player.Name,
+                    player.Att,
+                    player.AttG,
+                    player.Yds,
+                    player.Avg,
+                    player.YdsG,
+                    player.Weight,
+                    player.Lng,
+                    player.First,
+                    player.FirstPer,
                     player.Height);
             }
+            tPlayers = players;
         }
 
         // Calculate tree search algorithm event, only taking count of the selected attributes
@@ -652,7 +1059,7 @@ namespace IAProject
                 else if ((Convert.ToDouble(this.txtbHeight.Text)) <= 179)
                     players.RemoveAll(item => item.Height >= 180);
             }
-            
+
             // Weight
             if (cbWeight.Checked)
             {
@@ -709,5 +1116,130 @@ namespace IAProject
 
             ShowGrid();
         }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            pbCalculateTree.Step = -120;
+            pbCalculate.Step = -120;
+
+            pbCalculate.PerformStep();
+            pbCalculateTree.PerformStep();
+
+            // Uncheck everything        
+            this.cbAtt.Checked = false;
+            this.cbAttG.Checked = false;
+            this.cbYds.Checked = false;
+            this.cbAvg.Checked = false;
+            this.cbYdsG.Checked = false;
+            this.cbWeight.Checked = false;
+            this.cbLng.Checked = false;
+            this.cbFirst.Checked = false;
+            this.cbFirstPer.Checked = false;
+            this.cbHeight.Checked = false;
+            this.cbDispertion.Checked = false;
+
+            canSearch = 0;
+
+            // Set init values -> Minimum
+            this.tbAtt.Value = oAtt.MinInt();
+            this.tbAttG.Value = oAttG.MinInt();
+            this.tbYds.Value = oYds.MinInt();
+            this.tbAvg.Value = oAvg.MinInt();
+            this.tbYdsG.Value = oYdsG.MinInt();
+            this.tbWeight.Value = oWeight.MinInt() / 2;
+            this.tbLng.Value = oLng.MinInt();
+            this.tbFirst.Value = oFirst.MinInt();
+            this.tbFirstPer.Value = oFirstPer.MinInt();
+            this.tbHeight.Value = oHeight.MinInt() / 2;
+            this.tbDispertion.Value = MIN_DISPERTION;
+
+            // Set init values -> Median
+            //this.tbAtt.Value = oAtt.MedianInt();
+            //this.tbAttG.Value = oAttG.MedianInt();
+            //this.tbYds.Value = oYds.MedianInt();
+            //this.tbAvg.Value = oAvg.MedianInt();
+            //this.tbYdsG.Value = oYdsG.MedianInt();
+            //this.tbWeight.Value = oWeight.MedianInt() / 2;
+            //this.tbLng.Value = oLng.MedianInt();
+            //this.tbFirst.Value = oFirst.MedianInt();
+            //this.tbFirstPer.Value = oFirstPer.MedianInt();
+            //this.tbHeight.Value = oHeight.MedianInt() / 2;
+            //this.tbDispertion.Value = 50;
+        }
+
+        public static Image resizeImage(Image imgToResize, Size size)
+        {
+            return (Image)(new Bitmap(imgToResize, size));
+        }        
+
+        private void grdDifuse_MouseClick(object sender, MouseEventArgs e)
+        {
+            pnlSingle.Visible = true;
+            while (this.Height < 640)
+            {
+                this.Height += 20;
+                Application.DoEvents();
+            }
+
+            try
+            {
+                pImage = Image.FromFile((sPlayers[grdDifuse.CurrentCell.RowIndex].ImageUrl));
+                pImage = resizeImage(pImage, new Size(100, 100));
+                pbPlayerDetail.Image = pImage;
+            }
+            catch (ArgumentOutOfRangeException exc)
+            {
+                return;
+            }
+
+            lblPLayerName.Text = sPlayers[grdDifuse.CurrentCell.RowIndex].Name;
+            lblPlayerAtt.Text = sPlayers[grdDifuse.CurrentCell.RowIndex].Att.ToString();
+            lblPlayerAttG.Text = sPlayers[grdDifuse.CurrentCell.RowIndex].AttG.ToString();
+            lblPlayerYds.Text = sPlayers[grdDifuse.CurrentCell.RowIndex].Yds.ToString();
+            lblPlayerAvg.Text = sPlayers[grdDifuse.CurrentCell.RowIndex].Avg.ToString();
+            lblPlayerYdsG.Text = sPlayers[grdDifuse.CurrentCell.RowIndex].YdsG.ToString();
+            lblPlayerWeight.Text = sPlayers[grdDifuse.CurrentCell.RowIndex].Weight.ToString();
+            lblPlayerLng.Text = sPlayers[grdDifuse.CurrentCell.RowIndex].Lng.ToString();
+            lblPlayerFirst.Text = sPlayers[grdDifuse.CurrentCell.RowIndex].First.ToString();
+            lblPlayerFirstPer.Text = sPlayers[grdDifuse.CurrentCell.RowIndex].FirstPer.ToString();
+            lblPlayerHeight.Text = sPlayers[grdDifuse.CurrentCell.RowIndex].Height.ToString();
+        }
+
+        private void grdTree_MouseClick(object sender, MouseEventArgs e)
+        {
+            pnlT.Visible = true;
+
+            while (this.Height < 640)
+            {
+                this.Height += 20;
+                Application.DoEvents();
+            }
+
+            grdTree.Height = 430;
+
+            try
+            {
+                tImage = Image.FromFile((tPlayers[grdTree.CurrentCell.RowIndex].ImageUrl));
+                tImage = resizeImage(tImage, new Size(100, 100));
+                pbTree.Image = tImage;
+            }
+            catch (ArgumentOutOfRangeException exc)
+            {
+                return;
+            }
+            catch (NullReferenceException nullex) { return; }
+
+            lblTName.Text = tPlayers[grdTree.CurrentCell.RowIndex].Name;
+            lblTAtt.Text = tPlayers[grdTree.CurrentCell.RowIndex].Att.ToString();
+            lblTAttG.Text = tPlayers[grdTree.CurrentCell.RowIndex].AttG.ToString();
+            lblTYds.Text = tPlayers[grdTree.CurrentCell.RowIndex].Yds.ToString();
+            lblTAvg.Text = tPlayers[grdTree.CurrentCell.RowIndex].Avg.ToString();
+            lblTYdsG.Text = tPlayers[grdTree.CurrentCell.RowIndex].YdsG.ToString();
+            lblTWeight.Text = tPlayers[grdTree.CurrentCell.RowIndex].Weight.ToString();
+            lblTLng.Text = tPlayers[grdTree.CurrentCell.RowIndex].Lng.ToString();
+            lblTFirst.Text = tPlayers[grdTree.CurrentCell.RowIndex].First.ToString();
+            lblTFirstPer.Text = tPlayers[grdTree.CurrentCell.RowIndex].FirstPer.ToString();
+            lblTHeight.Text = tPlayers[grdTree.CurrentCell.RowIndex].Height.ToString();
+        }        
     }
 }

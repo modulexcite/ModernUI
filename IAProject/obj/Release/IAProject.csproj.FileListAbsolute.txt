@@ -11,3 +11,17 @@ C:\Users\Leind\Documents\Visual Studio 2013\Projects\IAProject\IAProject\obj\Rel
 C:\Users\Leind\Documents\Visual Studio 2013\Projects\IAProject\IAProject\obj\Release\IAProject.csproj.GenerateResource.Cache
 C:\Users\Leind\Documents\Visual Studio 2013\Projects\IAProject\IAProject\obj\Release\IAProject.exe
 C:\Users\Leind\Documents\Visual Studio 2013\Projects\IAProject\IAProject\obj\Release\IAProject.pdb
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Release\IAProject.exe.config
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Release\IAProject.csproj.ResolveComReference.cache
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Release\IAProject.exe
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Release\IAProject.pdb
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Release\IAProject.Form1.resources
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Release\IAProject.Properties.Resources.resources
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Release\IAProject.csproj.GenerateResource.Cache
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Release\nflRB2.xlsx
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Release\IAProject.exe
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Release\IAProject.pdb
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Release\MetroFramework.Design.dll
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Release\MetroFramework.dll
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\bin\Release\MetroFramework.Fonts.dll
+C:\Users\AlbertoHdz\Desktop\Final IA\IAProject\IAProject\obj\Release\IAProject.csprojResolveAssemblyReference.cache
